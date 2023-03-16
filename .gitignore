@@ -42,10 +42,16 @@ example/android/app/src/main/gen
 
 # build
 react-native-fast-image-*.tgz
-dist/
 
 # coverage reports
 coverage
 
 # TypeScript incremental compilation cache
 *.tsbuildinfo
+
+.prettierignore
+.node-version
+.yarnrc
+babel.config.js
+tsconfig.json
+yarn.lock
