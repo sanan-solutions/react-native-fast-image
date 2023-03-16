@@ -59,6 +59,7 @@
     "resolutions": {
         "@jest/create-cache-key-function": "^27"
     },
+    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.14.6",
         "@babel/runtime": "^7.14.6",
