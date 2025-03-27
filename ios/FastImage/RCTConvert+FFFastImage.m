@@ -70,7 +70,7 @@ RCT_ENUM_CONVERTER(FFFImageThumbnailSize, (@{
         imageSize = [[ImageSize alloc] initWithWidth:[width intValue] height:[height intValue]];
     }
     
-    FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:uri priority:priority headers:headers cacheControl:cacheControl];
+        FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:uri priority:priority headers:headers cacheControl:cacheControl cacheStorage:cacheStorage thumbnailSizeType:thumbailSizeType thumbnailSize:imageSize];
     
     return imageSource;
 }
