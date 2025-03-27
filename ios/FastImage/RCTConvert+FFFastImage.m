@@ -14,6 +14,18 @@ RCT_ENUM_CONVERTER(FFFCacheControl, (@{
                                        @"web": @(FFFCacheControlWeb),
                                        @"cacheOnly": @(FFFCacheControlCacheOnly),
                                        }), FFFCacheControlImmutable, integerValue);
+RCT_ENUM_CONVERTER(FFFCacheStorage, (@{
+                                       @"none": @(FFFCacheStorageNone),
+                                       @"memoryOnly": @(FFFCacheStorageMemoryOnly),
+                                       @"diskOnly": @(FFFCacheStorageDiskOnly),
+                                       @"all": @(FFFCacheStorageAll),
+                                       }), FFFCacheStorageAll, integerValue);
+
+RCT_ENUM_CONVERTER(FFFImageThumbnailSize, (@{
+                                       @"maxSize": @(FFFImageThumbnailMaxSize),
+                                       @"matchViewSize": @(FFFImageThumbnailMatchViewSize),
+                                       @"custom": @(FFFImageThumbnailCustomSize),
+                                       }), FFFImageThumbnailMaxSize, integerValue);
 
 + (FFFastImageSource *)FFFastImageSource:(id)json {
     if (!json) {
@@ -25,6 +37,8 @@ RCT_ENUM_CONVERTER(FFFCacheControl, (@{
     
     FFFPriority priority = [self FFFPriority:json[@"priority"]];
     FFFCacheControl cacheControl = [self FFFCacheControl:json[@"cache"]];
+    FFFCacheStorage cacheStorage = [self FFFCacheStorage:json[@"cacheStorage"]];
+    FFFImageThumbnailSize thumbailSizeType = [self FFFImageThumbnailSize:json[@"thumbnailSizeType"]];
     
     NSDictionary *headers = [self NSDictionary:json[@"headers"]];
     if (headers) {
@@ -41,6 +55,19 @@ RCT_ENUM_CONVERTER(FFFCacheControl, (@{
             // Set headers to nil here to avoid crashing later.
             headers = nil;
         }
+    }
+
+        NSDictionary *thumbnailSize = [self NSDictionary:json[@"thumbnailSize"]];
+    if(!thumbnailSize && thumbailSizeType == FFFImageThumbnailCustomSize) {
+        thumbailSizeType = FFFImageThumbnailMaxSize;
+    }
+    
+    ImageSize *imageSize;
+    if(thumbailSizeType == FFFImageThumbnailCustomSize) {
+        NSNumber *width =thumbnailSize[@"width"];
+        NSNumber *height =thumbnailSize[@"height"];
+        
+        imageSize = [[ImageSize alloc] initWithWidth:[width intValue] height:[height intValue]];
     }
     
     FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:uri priority:priority headers:headers cacheControl:cacheControl];

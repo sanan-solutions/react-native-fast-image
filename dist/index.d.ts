@@ -19,6 +19,20 @@ declare const cacheControl: {
     readonly web: "web";
     readonly cacheOnly: "cacheOnly";
 };
+type CacheStorage = 'all' | 'diskOnly' | 'memoryOnly' | 'none'
+declare const cacheStorage :{
+    readonly  all: 'all',
+    readonly  diskOnly: 'diskOnly',
+    readonly  memoryOnly:'memoryOnly',
+    readonly  none: 'none'
+}
+type ThumbailSizeType = 'custom' | 'maxSize'|'matchViewSize'
+declare const thumbnailSizeType : {
+    readonly  custom:'custom',
+    readonly  maxSize:'maxSize',
+    readonly  matchViewSize:'matchViewSize'
+}
+
 export declare type Source = {
     uri?: string;
     headers?: {
@@ -26,6 +40,12 @@ export declare type Source = {
     };
     priority?: Priority;
     cache?: Cache;
+    cacheStorage?:CacheStorage
+    thumbnailSizeType?:ThumbailSizeType
+    thumbnailSize?:{
+        width: number;
+        height: number;
+    }
 };
 export interface OnLoadEvent {
     nativeEvent: {
@@ -94,6 +114,8 @@ export interface FastImageStaticProperties {
     resizeMode: typeof resizeMode;
     priority: typeof priority;
     cacheControl: typeof cacheControl;
+    cacheStorage: typeof cacheStorage
+    thumbnailSizeType: typeof thumbnailSizeType
     preload: (sources: Source[]) => void;
     clearMemoryCache: () => Promise<void>;
     clearDiskCache: () => Promise<void>;
