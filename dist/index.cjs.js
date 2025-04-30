@@ -4,7 +4,7 @@ var _extends = require('@babel/runtime/helpers/extends');
 var React = require('react');
 var reactNative = require('react-native');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+function _interopDefaultLegacy(e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var _extends__default = /*#__PURE__*/_interopDefaultLegacy(_extends);
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
@@ -27,6 +27,17 @@ const cacheControl = {
   web: 'web',
   // Only load from cache.
   cacheOnly: 'cacheOnly'
+};
+const cacheStorage = {
+  all: 'all',
+  diskOnly: 'diskOnly',
+  memoryOnly: 'memoryOnly',
+  none: 'none'
+};
+const thumbnailSizeType = {
+  custom:'custom',
+  maxSize:'maxSize',
+  matchViewSize:'matchViewSize'
 };
 
 const resolveDefaultSource = defaultSource => {
@@ -68,7 +79,8 @@ function FastImageBase({
   ...props
 }) {
   if (fallback) {
-    const cleanedSource = { ...source
+    const cleanedSource = {
+      ...source
     };
     delete cleanedSource.cache;
     const resolvedSource = reactNative.Image.resolveAssetSource(cleanedSource);
@@ -118,6 +130,8 @@ const FastImage = FastImageComponent;
 FastImage.resizeMode = resizeMode;
 FastImage.cacheControl = cacheControl;
 FastImage.priority = priority;
+FastImage.cacheStorage = cacheStorage
+FastImage.thumbnailSizeType = thumbnailSizeType
 
 FastImage.preload = sources => reactNative.NativeModules.FastImageView.preload(sources);
 

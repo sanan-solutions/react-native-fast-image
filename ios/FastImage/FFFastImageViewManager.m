@@ -3,10 +3,22 @@
 
 #import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/SDWebImagePrefetcher.h>
+#import <SDWebImagePhotosPlugin/SDImagePhotosLoader.h>
 
 @implementation FFFastImageViewManager
 
 RCT_EXPORT_MODULE(FastImageView)
+
+- (id) init {
+    self = [super init];
+    // Enable Load thumbnail for video
+    SDImagePhotosLoader.sharedLoader.requestImageAssetOnly = NO;
+    // Supports HTTP URL as well as Photos URL globally
+    SDImageLoadersManager.sharedManager.loaders = @[SDWebImageDownloader.sharedDownloader, SDImagePhotosLoader.sharedLoader];
+    // Replace default manager's loader implementation
+    SDWebImageManager.defaultImageLoader = SDImageLoadersManager.sharedManager;
+    return self;
+}
 
 - (FFFastImageView*)view {
   return [[FFFastImageView alloc] init];
